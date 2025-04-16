@@ -87,7 +87,9 @@ body{
     width: 50px;
 } */
 
-
+.change{
+    transition: all .3s ease-in-out;
+}
 /*
     Roll Button styles
 */

@@ -1,7 +1,7 @@
 let p1=document.querySelector(".p1");
 let p2=document.querySelector(".p2");
 let btn=document.querySelector(".menu button");
-
+let whoseChance = document.querySelector(".chance");
 const dice = document.querySelector('.dice');
 const rollBtn = document.querySelector('.roll');
 
@@ -31,9 +31,18 @@ function updateL(player,L){
     player.style.gridColumn=col;
 }
 
+whoseChance.innerHTML=`<b>Player 1 Turn</b>`;
+whoseChance.style.color="green";
+
 btn.addEventListener("click",function(){
     btn.disabled = true;
     let rolledNumber = Dice();
+    // console.log(`Turn = ${turn}`);
+    setTimeout(() => {
+        // console.log(`Turn (inside set interval)= ${turn}`);
+        whoseChance.innerHTML=`<b>Player ${turn ? 1 : 2} Turn</b>`;
+        whoseChance.style.color=turn ? "green" : "brown";
+    }, 4100);
     setTimeout(() => {
         if(turn){
             turn=false;
@@ -82,6 +91,8 @@ btn.addEventListener("click",function(){
     , 4050); // Match dice roll duration    
     setTimeout(() => {
         btn.disabled = false; // Re-enable button after animation
+        whoseChance.innerHTML=`<b>Player ${turn ? 2 : 1} Turn</b>`;
+        whoseChance.style.color=turn ? "brown" : "green";
     }, 4050); // Adjust this time to match the animation duration
 });
 
