@@ -31,60 +31,80 @@ function updateL(player,L){
     player.style.gridColumn=col;
 }
 
-btn.addEventListener("click",function(){
+btn.addEventListener("click", function(){
     btn.disabled = true;
-    let rolledNumber = Dice();
+    let rolledNumber = Dice(); // starts animation + returns number
     setTimeout(() => {
         if(turn){
-            turn=false;
-            let new1 = L1+rolledNumber;
+            turn = false;
+            let new1 = L1 + rolledNumber;
             if(new1 < 100){
-                L1=new1;
-            }
-            else if(new1==100){
-                L1=100;
+                L1 = new1;
+            } else if(new1 == 100){
+                L1 = 100;
                 reset();
                 alert("Game over ! Player 1 Won");
             }
-            else{
-                L1=L1;
-            }
 
-            if(L1!=0){
-            L1=ladder(L1);
-            L1=snake(L1);
-            console.log(`L1 = ${L1}`);
-            updateL(p1,L1);
+            if(L1 != 0){
+                L1 = ladder(L1);
+                L1 = snake(L1);
+                console.log(`L1 = ${L1}`);
+                animateStep(p1, L1);
             }
-        }
-        else{
-            turn =true;
-            let new2 = L2+rolledNumber;
+        } else {
+            turn = true;
+            let new2 = L2 + rolledNumber;
             if(new2 < 100){
-                L2=new2;
-            }
-            else if(new2==100){
-                L2=100;
+                L2 = new2;
+            } else if(new2 == 100){
+                L2 = 100;
                 reset();
                 alert("Game over ! Player 2 Won");
             }
-            else{
-                L2=L2
-            }
-            if(L2!=0){
-                L2=ladder(L2);
-                L2=snake(L2);
+
+            if(L2 != 0){
+                L2 = ladder(L2);
+                L2 = snake(L2);
                 console.log(`L2 = ${L2}`);
-                updateL(p2,L2);
+                animateStep(p2, L2);
             }
         }
-    }
-    , 4050); // Match dice roll duration    
+    }, 4050); // Match dice roll duration
     setTimeout(() => {
         btn.disabled = false; // Re-enable button after animation
     }, 4050); // Adjust this time to match the animation duration
 });
 
+function animateStep(player, target) {
+    let current = Number(player.style.gridRowStart) ? getCurrentCell(player) : 1;
+
+    let steps = [];
+    for (let i = current + 1; i <= target; i++) {
+        steps.push(i);
+    }
+
+    let delay = 200; // ms per step
+    steps.forEach((step, index) => {
+        setTimeout(() => {
+            updateL(player, step);
+        }, delay * index);
+    });
+}
+
+function getCurrentCell(player) {
+    let row = parseInt(player.style.gridRow);
+    let col = parseInt(player.style.gridColumn);
+
+    let cellNum;
+    if ((10 - row + 1) % 2 == 0) {
+        cellNum = (10 - row) * 10 + col;
+    } else {
+        cellNum = (10 - row) * 10 + (11 - col);
+    }
+
+    return cellNum;
+}
 
 
 function ladder(L1){
@@ -124,7 +144,7 @@ function reset() {
 
 const rollDice = random => {
 
-    dice.style.animation = 'rolling 3s';
+    dice.style.animation = 'rolling 4s';
 
     setTimeout(() => {
 
@@ -159,6 +179,6 @@ const rollDice = random => {
 
         dice.style.animation = 'none';
 
-    }, 3050);
+    }, 4050);
 
 }
