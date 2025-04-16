@@ -105,10 +105,10 @@ body{
     transition: .4s;
 }
 
-.roll:hover {
+/* .roll:hover {
     color: #fff;
     background: #b33951;
-}
+} */
 
 /* 3D Dice Animation styles */
 .dice {
